@@ -1,0 +1,2 @@
+streamlit run Home.py
+uvicorn app.main:app --reload   

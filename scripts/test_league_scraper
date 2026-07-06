@@ -1,0 +1,10 @@
+from app.scraper.league_scraper import LeagueScraper
+
+scraper = LeagueScraper()
+
+clubs = scraper.get_clubs(
+    "https://www.transfermarkt.com/ligue-1/startseite/wettbewerb/FR1"
+)
+
+print(clubs[0])
+print(f"{len(clubs)} clubs")
