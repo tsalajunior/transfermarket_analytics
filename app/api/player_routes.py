@@ -90,6 +90,16 @@ def get_top_assists(
         limit=limit
     )
 
+@router.get("/")
+def get_players(
+    db: Session = Depends(get_db)
+):
+
+    repository = PlayerRepository(db)
+
+    return repository.get_all_players()
+    
+
 @router.get("/search")
 def search_players(
     q: str,
@@ -143,17 +153,17 @@ def compare_players(
     return comparison
 
 
-@router.get(
-    "",
-    response_model=list[PlayerListResponse]
-)
-def get_players(
-    db: Session = Depends(get_db)
-):
+# @router.get(
+#     "",
+#     response_model=list[PlayerListResponse]
+# )
+# def get_players(
+#     db: Session = Depends(get_db)
+# ):
 
-    repository = PlayerRepository(db)
+#     repository = PlayerRepository(db)
 
-    return repository.get_all_players()
+#     return repository.get_all_players()
 
 
 

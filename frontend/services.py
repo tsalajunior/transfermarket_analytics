@@ -95,3 +95,249 @@ def get_player(
     return None
 
 
+def compare_players(
+    player1: int,
+    player2: int,
+    season: str
+):
+
+    response = requests.get(
+        f"{API_URL}/players/compare",
+        params={
+            "player1": player1,
+            "player2": player2,
+            "season": season
+        }
+    )
+
+    if response.status_code == 200:
+        return response.json()
+
+    return None
+
+
+# def get_league_market_values(
+#     league_id: int
+# ):
+
+#     response = requests.get(
+#         f"{API_URL}/leagues/{league_id}/market-values"
+#     )
+
+#     if response.status_code == 200:
+
+#         return response.json()
+
+#     return []
+
+# def get_league_market_values(
+#     league_id: int
+# ):
+
+#     response = requests.get(
+#         f"{API_URL}/leagues/{league_id}/market-values"
+#     )
+
+#     print("STATUS :", response.status_code)
+#     print("TEXT :", response.text)
+
+#     if response.status_code == 200:
+#         return response.json()
+
+#     return []
+
+# def get_league_market_values(
+#     league_id: int
+# ):
+
+#     url = f"{API_URL}/leagues/{league_id}/market-values"
+
+#     response = requests.get(url)
+
+#     print("=" * 50)
+#     print("URL :", url)
+#     print("STATUS :", response.status_code)
+#     print("TEXT :", response.text)
+#     print("=" * 50)
+
+#     if response.status_code == 200:
+#         return response.json()
+
+#     return []
+
+def get_league_market_values(
+    league_id: int
+):
+
+    print("SERVICE CALLED WITH:", league_id)
+
+    response = requests.get(
+        f"{API_URL}/leagues/{league_id}/market-values"
+    )
+
+    print("SERVICE RESPONSE:", response.text)
+
+    if response.status_code == 200:
+        return response.json()
+
+    return []
+
+def get_league(
+    league_id: int,
+    season: str
+):
+
+    response = requests.get(
+
+        f"{API_URL}/leagues/{league_id}",
+
+        params={
+
+            "season": season
+
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return None
+
+def get_average_age_by_club(
+    league_id: int
+):
+
+    response = requests.get(
+        f"{API_URL}/leagues/{league_id}/average-age"
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_league_top_scorers(
+    league_id: int,
+    season: str
+):
+
+    response = requests.get(
+
+        f"{API_URL}/leagues/{league_id}/top-scorers",
+
+        params={
+
+            "season": season
+
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_league_top_assists(
+    league_id: int,
+    season: str
+):
+
+    response = requests.get(
+
+        f"{API_URL}/leagues/{league_id}/top-assists",
+
+        params={
+
+            "season": season
+
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_most_offensive_clubs(
+
+    league_id: int,
+    season: str
+
+):
+
+    response = requests.get(
+
+        f"{API_URL}/leagues/{league_id}/most-offensive",
+
+        params={
+
+            "season": season
+
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_most_creative_clubs(
+
+    league_id: int,
+    season: str
+
+):
+
+    response = requests.get(
+
+        f"{API_URL}/leagues/{league_id}/most-creative",
+
+        params={
+
+            "season": season
+
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+
+
+def get_attack_scatter(
+
+    league_id: int,
+    season: str
+
+):
+
+    response = requests.get(
+
+        f"{API_URL}/leagues/{league_id}/attack-scatter",
+
+        params={
+
+            "season": season
+
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []

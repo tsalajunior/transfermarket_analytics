@@ -360,8 +360,11 @@ class PlayerRepository:
         return [
             {
                 "id": player.id,
-                "name": player.name
+                "name": player.name,
+                "club": player.club.name if player.club else None
             }
             for player in players
         ]
+    
+
     
