@@ -323,6 +323,7 @@ class PlayerRepository:
             return {
                 "id": player.id,
                 "name": player.name,
+                "age": calculate_age(player.birth_date),
                 "nationality": player.nationality,
                 "position": player.position,
                 "club": player.club.name if player.club else None,
@@ -343,7 +344,7 @@ class PlayerRepository:
 
         if first is None or second is None:
             return None
-
+        
         return {
             "player1": first,
             "player2": second
@@ -366,5 +367,45 @@ class PlayerRepository:
             for player in players
         ]
     
+    def get_most_valuable_players(
+        self,
+        limit: int = 20
+    ):
+
+        players = (
+
+            self.db.query(Player)
+
+            .filter(
+                Player.market_value_eur.isnot(None)
+            )
+
+            .order_by(
+                Player.market_value_eur.desc()
+            )
+
+            .limit(limit)
+
+            .all()
+
+        )
+
+        return [
+
+            {
+
+                "player": player.name,
+
+                "club": player.club.name if player.club else None,
+
+                "position": player.position,
+
+                "market_value": float(player.market_value_eur)
+
+            }
+
+            for player in players
+
+        ]
 
     

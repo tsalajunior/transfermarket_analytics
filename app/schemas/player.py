@@ -59,6 +59,7 @@ class ComparisonPlayer(BaseModel):
     id: int
     name: str
     nationality: str | None
+    age: int | None = None
     position: str | None
     club: str | None
 

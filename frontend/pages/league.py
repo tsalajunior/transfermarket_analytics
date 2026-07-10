@@ -22,6 +22,12 @@ from services import (
     get_league_top_assists, 
     get_most_offensive_clubs
 )
+from components.league_tables import (
+    display_top_scorers_table,
+    display_top_assists_table
+)
+
+
 
 st.title("Ligue 1 Dashboard")
 
@@ -103,6 +109,21 @@ col5, col6 = st.columns(2)
 
 with col5:
     display_most_offensive_chart(offensive)
+
+st.divider()
+
+col1, col2 = st.columns(2)
+with col1:
+
+    display_top_scorers_table(
+        top_scorers
+    )
+
+with col2:
+
+    display_top_assists_table(
+        top_assists
+    )
 
 
 creative = get_most_creative_clubs(

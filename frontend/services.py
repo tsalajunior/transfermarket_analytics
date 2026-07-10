@@ -17,7 +17,6 @@ def get_clubs():
     except requests.exceptions.RequestException:
         return []
 
-
 def get_club(
     club_id,
     season
@@ -32,7 +31,6 @@ def get_club(
 
     return response.json()
 
-
 def get_seasons():
 
     response = requests.get(
@@ -40,7 +38,6 @@ def get_seasons():
     )
 
     return response.json()
-
 
 def get_players_by_club(
     club_id,
@@ -52,7 +49,6 @@ def get_players_by_club(
     )
 
     return response.json()
-
 
 def search_players(query: str):
 
@@ -94,7 +90,6 @@ def get_player(
 
     return None
 
-
 def compare_players(
     player1: int,
     player2: int,
@@ -114,56 +109,6 @@ def compare_players(
         return response.json()
 
     return None
-
-
-# def get_league_market_values(
-#     league_id: int
-# ):
-
-#     response = requests.get(
-#         f"{API_URL}/leagues/{league_id}/market-values"
-#     )
-
-#     if response.status_code == 200:
-
-#         return response.json()
-
-#     return []
-
-# def get_league_market_values(
-#     league_id: int
-# ):
-
-#     response = requests.get(
-#         f"{API_URL}/leagues/{league_id}/market-values"
-#     )
-
-#     print("STATUS :", response.status_code)
-#     print("TEXT :", response.text)
-
-#     if response.status_code == 200:
-#         return response.json()
-
-#     return []
-
-# def get_league_market_values(
-#     league_id: int
-# ):
-
-#     url = f"{API_URL}/leagues/{league_id}/market-values"
-
-#     response = requests.get(url)
-
-#     print("=" * 50)
-#     print("URL :", url)
-#     print("STATUS :", response.status_code)
-#     print("TEXT :", response.text)
-#     print("=" * 50)
-
-#     if response.status_code == 200:
-#         return response.json()
-
-#     return []
 
 def get_league_market_values(
     league_id: int
@@ -315,8 +260,6 @@ def get_most_creative_clubs(
 
     return []
 
-
-
 def get_attack_scatter(
 
     league_id: int,
@@ -332,6 +275,26 @@ def get_attack_scatter(
 
             "season": season
 
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_most_valuable_players(
+    limit: int = 20
+):
+
+    response = requests.get(
+
+        f"{API_URL}/players/most-valuable",
+
+        params={
+            "limit": limit
         }
 
     )

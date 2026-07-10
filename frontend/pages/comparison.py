@@ -14,6 +14,7 @@ from components.comparison_charts import (
     display_comparison_radar,
     display_comparison_bar_charts
 )
+from components.comparison_table import display_comparison_table
 
 
 
@@ -94,3 +95,6 @@ display_comparison_cards(comparison)
 display_comparison_kpis(comparison)
 display_comparison_radar(comparison)
 display_comparison_bar_charts(comparison)
+st.divider()
+
+display_comparison_table(comparison)

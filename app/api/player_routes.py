@@ -153,21 +153,6 @@ def compare_players(
     return comparison
 
 
-# @router.get(
-#     "",
-#     response_model=list[PlayerListResponse]
-# )
-# def get_players(
-#     db: Session = Depends(get_db)
-# ):
-
-#     repository = PlayerRepository(db)
-
-#     return repository.get_all_players()
-
-
-
-# --------------------------------------------------
 
 @router.get(
     "/{player_id}",
@@ -194,3 +179,17 @@ def get_player(
     return player
 
 
+@router.get("/most-valuable")
+def get_most_valuable_players(
+
+    limit: int = 20,
+
+    db: Session = Depends(get_db)
+
+):
+
+    repository = PlayerRepository(db)
+
+    return repository.get_most_valuable_players(
+        limit
+    )
