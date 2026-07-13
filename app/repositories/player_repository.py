@@ -408,4 +408,275 @@ class PlayerRepository:
 
         ]
 
+    def get_player_ranking_scorers(
+        self,
+        season: str = "25/26",
+        limit: int = 20,
+        position: str | None = None,
+        min_minutes: int = 0
+    ):
+
+        query = (
+
+            self.db.query(
+                Player,
+                PlayerStat
+            )
+
+            .join(
+                PlayerStat,
+                Player.id == PlayerStat.player_id
+            )
+
+            .filter(
+                PlayerStat.season == season,
+                PlayerStat.minutes_played >= min_minutes
+            )
+
+        )
+
+        if position and position != "All":
+
+            query = query.filter(
+                Player.position == position
+            )
+
+        results = (
+
+            query
+
+            .order_by(
+                PlayerStat.goals.desc()
+            )
+
+            .limit(limit)
+
+            .all()
+
+        )
+
+        return [
+
+            {
+
+                "player": player.name,
+
+                "club": player.club.name if player.club else None,
+
+                "position": player.position,
+
+                "goals": stats.goals,
+
+                "assists": stats.assists,
+
+                "minutes": stats.minutes_played
+
+            }
+
+            for player, stats in results
+
+        ]
+        
+    def get_player_ranking_assists(
+        self,
+        season: str = "25/26",
+        limit: int = 20,
+        position: str | None = None,
+        min_minutes: int = 0
+    ):
+
+        query = (
+
+            self.db.query(
+                Player,
+                PlayerStat
+            )
+
+            .join(
+                PlayerStat,
+                Player.id == PlayerStat.player_id
+            )
+
+            .filter(
+                PlayerStat.season == season,
+                PlayerStat.minutes_played >= min_minutes
+            )
+
+        )
+
+        if position and position != "All":
+
+            query = query.filter(
+                Player.position == position
+            )
+
+        results = (
+
+            query
+
+            .order_by(
+                PlayerStat.assists.desc()
+            )
+
+            .limit(limit)
+
+            .all()
+
+        )
+
+        return [
+
+            {
+
+                "player": player.name,
+
+                "club": player.club.name if player.club else None,
+
+                "position": player.position,
+
+                "goals": stats.goals,
+
+                "assists": stats.assists,
+
+                "minutes": stats.minutes_played
+
+            }
+
+            for player, stats in results
+
+        ]
     
+    def get_top_goals_per90(
+        self,
+        season: str = "25/26",
+        limit: int = 20,
+        position: str | None = None,
+        min_minutes: int = 0
+    ):
+
+        query = (
+
+            self.db.query(
+                Player,
+                PlayerStat
+            )
+
+            .join(
+                PlayerStat,
+                Player.id == PlayerStat.player_id
+            )
+
+            .filter(
+                PlayerStat.season == season,
+                PlayerStat.minutes_played >= min_minutes
+            )
+
+        )
+
+        if position and position != "All":
+
+            query = query.filter(
+                Player.position == position
+            )
+
+        results = (
+
+            query
+
+            .order_by(
+                PlayerStat.goals_per_90.desc()
+            )
+
+            .limit(limit)
+
+            .all()
+
+        )
+
+        return [
+
+            {
+
+                "player": player.name,
+                "club": player.club.name if player.club else None,
+                "position": player.position,
+
+                "goals_per_90": float(stats.goals_per_90 or 0),
+
+                "goals": stats.goals,
+                "minutes": stats.minutes_played
+
+            }
+
+            for player, stats in results
+
+        ]
+
+    def get_top_contributions_per90(
+        self,
+        season: str = "25/26",
+        limit: int = 20,
+        position: str | None = None,
+        min_minutes: int = 0
+    ):
+
+        query = (
+
+            self.db.query(
+                Player,
+                PlayerStat
+            )
+
+            .join(
+                PlayerStat,
+                Player.id == PlayerStat.player_id
+            )
+
+            .filter(
+                PlayerStat.season == season,
+                PlayerStat.minutes_played >= min_minutes
+            )
+
+        )
+
+        if position and position != "All":
+
+            query = query.filter(
+                Player.position == position
+            )
+
+        results = (
+
+            query
+
+            .order_by(
+                PlayerStat.goal_contribution_per_90.desc()
+            )
+
+            .limit(limit)
+
+            .all()
+
+        )
+
+        return [
+
+            {
+
+                "player": player.name,
+                "club": player.club.name if player.club else None,
+                "position": player.position,
+
+                "goal_contribution_per_90": float(
+                    stats.goal_contribution_per_90 or 0
+                ),
+
+                "goals": stats.goals,
+                "assists": stats.assists
+
+            }
+
+            for player, stats in results
+
+        ]
+

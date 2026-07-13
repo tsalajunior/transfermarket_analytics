@@ -1,17 +1,25 @@
 import streamlit as st
-
+from utils.formatters import format_market_value
 
 def display_rankings_cards(
 
     top_scorers,
     top_assists,
-    most_valuable
+    most_valuable,
+    goals_per90,
+    contributions_per90
 
 ):
 
-    scorer = top_scorers[0] if top_scorers else None
-    assister = top_assists[0] if top_assists else None
-    valuable = most_valuable[0] if most_valuable else None
+    scorer = top_scorers[0] if top_scorers else {}
+    assister = top_assists[0] if top_assists else {}
+    valuable = most_valuable[0] if most_valuable else {}
+    goals90 = goals_per90[0] if goals_per90 else {}
+    contrib90 = contributions_per90[0] if contributions_per90 else {}
+
+    # ==========================
+    # Ligne 1
+    # ==========================
 
     col1, col2, col3 = st.columns(3)
 
@@ -21,9 +29,9 @@ def display_rankings_cards(
 
             "🥇 Top Scorer",
 
-            scorer["player"],
+            scorer.get("player", "—"),
 
-            f'{scorer["goals"]} goals'
+            f'{scorer.get("goals",0)} goals'
 
         )
 
@@ -33,9 +41,9 @@ def display_rankings_cards(
 
             "🎯 Top Assister",
 
-            assister["player"],
+            assister.get("player", "—"),
 
-            f'{assister["assists"]} assists'
+            f'{assister.get("assists",0)} assists'
 
         )
 
@@ -45,8 +53,44 @@ def display_rankings_cards(
 
             "💰 Most Valuable",
 
-            valuable["player"],
+            valuable.get("player", "—"),
 
-            f'{valuable["market_value"]/1_000_000:.1f} M€'
+            format_market_value(
+
+                valuable["market_value"]
+
+            )
+
+        )
+
+    st.markdown("")
+
+    # ==========================
+    # Ligne 2
+    # ==========================
+
+    col4, col5 = st.columns(2)
+
+    with col4:
+
+        st.metric(
+
+            "⚽ Goals /90",
+
+            goals90.get("player", "—"),
+
+            f'{goals90.get("goals_per_90",0):.2f}'
+
+        )
+
+    with col5:
+
+        st.metric(
+
+            "🚀 Goal Contributions /90",
+
+            contrib90.get("player", "—"),
+
+            f'{contrib90.get("goal_contribution_per_90",0):.2f}'
 
         )

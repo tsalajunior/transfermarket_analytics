@@ -304,3 +304,129 @@ def get_most_valuable_players(
         return response.json()
 
     return []
+
+def get_top_scorers(
+
+    season="25/26",
+    limit=20,
+    position="All",
+    min_minutes=0
+
+):
+
+    response = requests.get(
+
+        f"{API_URL}/players/rankings/top-scorers",
+
+        params={
+
+            "season": season,
+
+            "limit": limit,
+
+            "position": position,
+
+            "min_minutes": min_minutes
+
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_top_assists(
+
+    season="25/26",
+    limit=20,
+    position="All",
+    min_minutes=0
+
+):
+
+    response = requests.get(
+
+        f"{API_URL}/players/rankings/top-assists",
+
+        params={
+
+            "season": season,
+
+            "limit": limit,
+
+            "position": position,
+
+            "min_minutes": min_minutes
+
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_top_goals_per90(
+
+    season="25/26",
+    limit=20,
+    position="All",
+    min_minutes=0
+
+):
+
+    response = requests.get(
+
+        f"{API_URL}/players/rankings/top-goals-per90",
+
+        params={
+
+            "season": season,
+            "limit": limit,
+            "position": position,
+            "min_minutes": min_minutes
+
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_top_contributions_per90(
+
+    season="25/26",
+    limit=20,
+    position="All",
+    min_minutes=0
+
+):
+
+    response = requests.get(
+
+        f"{API_URL}/players/rankings/top-contributions-per90",
+
+        params={
+
+            "season": season,
+            "limit": limit,
+            "position": position,
+            "min_minutes": min_minutes
+
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []

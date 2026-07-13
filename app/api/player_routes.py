@@ -153,6 +153,116 @@ def compare_players(
     return comparison
 
 
+@router.get("/most-valuable")
+def get_most_valuable_players(
+
+    limit: int = 20,
+
+    db: Session = Depends(get_db)
+
+):
+
+    repository = PlayerRepository(db)
+
+    return repository.get_most_valuable_players(
+        limit
+    )
+
+@router.get("/rankings/top-scorers")
+def get_player_ranking_scorers(
+
+    season: str = "25/26",
+    limit: int = 20,
+    position: str | None = None,
+    min_minutes: int = 0,
+
+    db: Session = Depends(get_db)
+
+):
+
+    repository = PlayerRepository(db)
+
+    return repository.get_player_ranking_scorers(
+
+        season=season,
+        limit=limit,
+        position=position,
+        min_minutes=min_minutes
+
+    )
+
+@router.get("/rankings/top-assists")
+def get_player_ranking_assists(
+
+    season: str = "25/26",
+    limit: int = 20,
+    position: str | None = None,
+    min_minutes: int = 0,
+
+    db: Session = Depends(get_db)
+
+):
+
+    repository = PlayerRepository(db)
+
+    return repository.get_player_ranking_assists(
+
+        season=season,
+        limit=limit,
+        position=position,
+        min_minutes=min_minutes
+
+    )
+
+@router.get("/rankings/top-goals-per90")
+def get_top_goals_per90(
+
+    season: str = "25/26",
+    limit: int = 20,
+    position: str | None = None,
+    min_minutes: int = 0,
+
+    db: Session = Depends(get_db)
+
+):
+
+    repository = PlayerRepository(db)
+
+    return repository.get_top_goals_per90(
+
+        season=season,
+        limit=limit,
+        position=position,
+        min_minutes=min_minutes
+
+    )
+
+@router.get("/rankings/top-contributions-per90")
+def get_top_contributions_per90(
+
+    season: str = "25/26",
+    limit: int = 20,
+    position: str | None = None,
+    min_minutes: int = 0,
+
+    db: Session = Depends(get_db)
+
+):
+
+    repository = PlayerRepository(db)
+
+    return repository.get_top_contributions_per90(
+
+        season=season,
+        limit=limit,
+        position=position,
+        min_minutes=min_minutes
+
+    )
+
+
+
+
 
 @router.get(
     "/{player_id}",
@@ -179,17 +289,3 @@ def get_player(
     return player
 
 
-@router.get("/most-valuable")
-def get_most_valuable_players(
-
-    limit: int = 20,
-
-    db: Session = Depends(get_db)
-
-):
-
-    repository = PlayerRepository(db)
-
-    return repository.get_most_valuable_players(
-        limit
-    )
