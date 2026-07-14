@@ -369,8 +369,19 @@ class PlayerRepository:
     
     def get_most_valuable_players(
         self,
-        limit: int = 20
+        limit: int = 20,
+        club: str | None = None 
     ):
+        
+        query = (
+            self.db.query(Player)
+            .filter(Player.market_value_eur.isnot(None))
+        )
+
+        if club and club != "All":
+            query = query.filter(
+                Player.club.has(name=club)
+            )
 
         players = (
 
@@ -395,11 +406,10 @@ class PlayerRepository:
             {
 
                 "player": player.name,
-
+                "age": calculate_age(player.birth_date),
+                "nationality": player.nationality,
                 "club": player.club.name if player.club else None,
-
                 "position": player.position,
-
                 "market_value": float(player.market_value_eur)
 
             }
@@ -413,6 +423,7 @@ class PlayerRepository:
         season: str = "25/26",
         limit: int = 20,
         position: str | None = None,
+        club=None,
         min_minutes: int = 0
     ):
 
@@ -434,6 +445,11 @@ class PlayerRepository:
             )
 
         )
+        if club and club != "All":
+
+            query = query.filter(
+                Player.club.has(name=club)
+            )
 
         if position and position != "All":
 
@@ -460,6 +476,8 @@ class PlayerRepository:
             {
 
                 "player": player.name,
+                "age": calculate_age(player.birth_date),
+                "nationality": player.nationality,
 
                 "club": player.club.name if player.club else None,
 
@@ -482,6 +500,7 @@ class PlayerRepository:
         season: str = "25/26",
         limit: int = 20,
         position: str | None = None,
+        club=None,
         min_minutes: int = 0
     ):
 
@@ -503,6 +522,12 @@ class PlayerRepository:
             )
 
         )
+
+        if club and club != "All":
+
+            query = query.filter(
+                Player.club.has(name=club)
+            )
 
         if position and position != "All":
 
@@ -529,7 +554,8 @@ class PlayerRepository:
             {
 
                 "player": player.name,
-
+                "age": calculate_age(player.birth_date),
+                "nationality": player.nationality,
                 "club": player.club.name if player.club else None,
 
                 "position": player.position,
@@ -551,6 +577,7 @@ class PlayerRepository:
         season: str = "25/26",
         limit: int = 20,
         position: str | None = None,
+        club=None,
         min_minutes: int = 0
     ):
 
@@ -572,6 +599,12 @@ class PlayerRepository:
             )
 
         )
+
+        if club and club != "All":
+
+            query = query.filter(
+                Player.club.has(name=club)
+            )
 
         if position and position != "All":
 
@@ -598,6 +631,8 @@ class PlayerRepository:
             {
 
                 "player": player.name,
+                "age": calculate_age(player.birth_date),
+                "nationality": player.nationality,
                 "club": player.club.name if player.club else None,
                 "position": player.position,
 
@@ -617,6 +652,7 @@ class PlayerRepository:
         season: str = "25/26",
         limit: int = 20,
         position: str | None = None,
+        club=None,
         min_minutes: int = 0
     ):
 
@@ -638,6 +674,12 @@ class PlayerRepository:
             )
 
         )
+
+        if club and club != "All":
+
+            query = query.filter(
+                Player.club.has(name=club)
+            )
 
         if position and position != "All":
 
@@ -664,6 +706,8 @@ class PlayerRepository:
             {
 
                 "player": player.name,
+                "age": calculate_age(player.birth_date),
+                "nationality": player.nationality,
                 "club": player.club.name if player.club else None,
                 "position": player.position,
 

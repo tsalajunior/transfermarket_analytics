@@ -31,6 +31,7 @@ top_scorers = get_top_scorers(
     season=filters["season"],
     limit=filters["limit"],
     position=filters["position"],
+    club=filters["club"],
     min_minutes=filters["min_minutes"]
 )
 
@@ -38,6 +39,7 @@ top_assists = get_top_assists(
     season=filters["season"],
     limit=filters["limit"],
     position=filters["position"],
+    club=filters["club"],
     min_minutes=filters["min_minutes"]
 )
 
@@ -45,6 +47,7 @@ goals_per90 = get_top_goals_per90(
     season=filters["season"],
     limit=filters["limit"],
     position=filters["position"],
+    club=filters["club"],
     min_minutes=filters["min_minutes"]
 )
 
@@ -52,11 +55,13 @@ contributions_per90 = get_top_contributions_per90(
     season=filters["season"],
     limit=filters["limit"],
     position=filters["position"],
+    club=filters["club"],
     min_minutes=filters["min_minutes"]
 )
 
 most_valuable = get_most_valuable_players(
-    limit=filters["limit"]
+    limit=filters["limit"],
+    club=filters["club"]
 )
 
 # -----------------------------

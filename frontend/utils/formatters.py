@@ -13,3 +13,14 @@ def format_market_value(value):
         return f"{value / 1_000:.0f} K€"
 
     return f"{value:.0f} €"
+
+
+def format_minutes(minutes: int) -> str:
+
+    if minutes is None:
+        return "-"
+
+    hours = minutes // 60
+    mins = minutes % 60
+
+    return f"{hours}h {mins:02d}min"

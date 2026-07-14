@@ -157,6 +157,7 @@ def compare_players(
 def get_most_valuable_players(
 
     limit: int = 20,
+    club: str | None = None,
 
     db: Session = Depends(get_db)
 
@@ -165,7 +166,8 @@ def get_most_valuable_players(
     repository = PlayerRepository(db)
 
     return repository.get_most_valuable_players(
-        limit
+        limit=limit,
+        club=club
     )
 
 @router.get("/rankings/top-scorers")
@@ -175,6 +177,7 @@ def get_player_ranking_scorers(
     limit: int = 20,
     position: str | None = None,
     min_minutes: int = 0,
+    club: str | None = None,
 
     db: Session = Depends(get_db)
 
@@ -187,7 +190,8 @@ def get_player_ranking_scorers(
         season=season,
         limit=limit,
         position=position,
-        min_minutes=min_minutes
+        min_minutes=min_minutes,
+        club=club,
 
     )
 
@@ -198,6 +202,7 @@ def get_player_ranking_assists(
     limit: int = 20,
     position: str | None = None,
     min_minutes: int = 0,
+    club: str | None = None,
 
     db: Session = Depends(get_db)
 
@@ -210,7 +215,8 @@ def get_player_ranking_assists(
         season=season,
         limit=limit,
         position=position,
-        min_minutes=min_minutes
+        min_minutes=min_minutes,
+        club=club
 
     )
 
@@ -221,6 +227,8 @@ def get_top_goals_per90(
     limit: int = 20,
     position: str | None = None,
     min_minutes: int = 0,
+    club: str | None = None,
+
 
     db: Session = Depends(get_db)
 
@@ -233,7 +241,8 @@ def get_top_goals_per90(
         season=season,
         limit=limit,
         position=position,
-        min_minutes=min_minutes
+        min_minutes=min_minutes,
+        club=club
 
     )
 
@@ -244,6 +253,7 @@ def get_top_contributions_per90(
     limit: int = 20,
     position: str | None = None,
     min_minutes: int = 0,
+    club: str | None = None,
 
     db: Session = Depends(get_db)
 
@@ -256,7 +266,8 @@ def get_top_contributions_per90(
         season=season,
         limit=limit,
         position=position,
-        min_minutes=min_minutes
+        min_minutes=min_minutes,
+        club=club
 
     )
 

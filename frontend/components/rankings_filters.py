@@ -1,13 +1,22 @@
 import streamlit as st
 
-from services import get_seasons
+from services import (
+    get_seasons,
+    get_clubs
+)
 
 
 def display_rankings_filters():
 
     seasons = get_seasons()
+    clubs = get_clubs()
 
-    col1, col2, col3, col4 = st.columns(4)
+    club_options = ["All"] + [
+        club["name"]
+        for club in clubs
+    ]
+
+    col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
 
@@ -38,6 +47,13 @@ def display_rankings_filters():
 
     with col3:
 
+        selected_club = st.selectbox(
+            "Club",
+            club_options
+        )
+
+    with col4:
+
         min_minutes = st.slider(
             "Minimum Minutes",
             min_value=0,
@@ -46,7 +62,7 @@ def display_rankings_filters():
             step=100
         )
 
-    with col4:
+    with col5:
 
         limit = st.selectbox(
             "Top",
@@ -60,13 +76,9 @@ def display_rankings_filters():
         )
 
     return {
-
         "season": season,
-
         "position": position,
-
+        "club": selected_club,
         "min_minutes": min_minutes,
-
         "limit": limit
-
     }

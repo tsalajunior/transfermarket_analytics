@@ -2,6 +2,9 @@ import pandas as pd
 import streamlit as st
 from utils.formatters import format_market_value
 from utils.position_colors import color_position
+from utils.formatters import format_minutes
+
+
 
 def display_market_value_table(data):
 
@@ -18,6 +21,8 @@ def display_market_value_table(data):
         columns={
 
             "player": "Player",
+            "age": "Age",
+            "nationality": "Nationality",
 
             "club": "Club",
 
@@ -128,15 +133,12 @@ def display_top_scorers_table(data):
         columns={
 
             "player": "Player",
-
+            "age": "Age",
+            "nationality": "Nationality",
             "club": "Club",
-
             "position": "Position",
-
             "goals": "Goals",
-
             "assists": "Assists",
-
             "minutes": "Minutes"
 
         }
@@ -192,15 +194,12 @@ def display_top_assists_table(data):
         columns={
 
             "player": "Player",
-
+            "age": "Age",
+            "nationality": "Nationality",
             "club": "Club",
-
             "position": "Position",
-
             "assists": "Assists",
-
             "goals": "Goals",
-
             "minutes": "Minutes"
 
         }
@@ -256,15 +255,12 @@ def display_goals_per90_table(data):
         columns={
 
             "player": "Player",
-
+            "age": "Age",
+            "nationality": "Nationality",
             "club": "Club",
-
             "position": "Position",
-
             "goals_per_90": "Goals /90",
-
             "goals": "Goals",
-
             "minutes": "Minutes"
 
         }
@@ -322,16 +318,14 @@ def display_contributions_per90_table(data):
         columns={
 
             "player": "Player",
-
+            "age": "Age",
+            "nationality": "Nationality",
             "club": "Club",
-
             "position": "Position",
-
             "goal_contribution_per_90": "G+A /90",
-
             "goals": "Goals",
-
-            "assists": "Assists"
+            "assists": "Assists",
+            "minutes": "Minutes"
 
         }
 

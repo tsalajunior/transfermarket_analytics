@@ -286,7 +286,8 @@ def get_attack_scatter(
     return []
 
 def get_most_valuable_players(
-    limit: int = 20
+    limit: int = 20,
+    club: str = "All"
 ):
 
     response = requests.get(
@@ -294,7 +295,8 @@ def get_most_valuable_players(
         f"{API_URL}/players/most-valuable",
 
         params={
-            "limit": limit
+            "limit": limit,
+            "club": club
         }
 
     )
@@ -310,7 +312,8 @@ def get_top_scorers(
     season="25/26",
     limit=20,
     position="All",
-    min_minutes=0
+    min_minutes=0,
+    club: str = "All",
 
 ):
 
@@ -326,7 +329,9 @@ def get_top_scorers(
 
             "position": position,
 
-            "min_minutes": min_minutes
+            "min_minutes": min_minutes,
+
+            "club": club,
 
         }
 
@@ -343,7 +348,8 @@ def get_top_assists(
     season="25/26",
     limit=20,
     position="All",
-    min_minutes=0
+    min_minutes=0,
+    club: str = "All"
 
 ):
 
@@ -359,7 +365,9 @@ def get_top_assists(
 
             "position": position,
 
-            "min_minutes": min_minutes
+            "min_minutes": min_minutes,
+
+            "club": club,
 
         }
 
@@ -376,7 +384,8 @@ def get_top_goals_per90(
     season="25/26",
     limit=20,
     position="All",
-    min_minutes=0
+    min_minutes=0,
+    club: str = "All"
 
 ):
 
@@ -389,7 +398,8 @@ def get_top_goals_per90(
             "season": season,
             "limit": limit,
             "position": position,
-            "min_minutes": min_minutes
+            "min_minutes": min_minutes,
+            "club": club,
 
         }
 
@@ -406,7 +416,8 @@ def get_top_contributions_per90(
     season="25/26",
     limit=20,
     position="All",
-    min_minutes=0
+    min_minutes=0,
+    club: str = "All"
 
 ):
 
@@ -419,7 +430,8 @@ def get_top_contributions_per90(
             "season": season,
             "limit": limit,
             "position": position,
-            "min_minutes": min_minutes
+            "min_minutes": min_minutes,
+            "club": club,
 
         }
 
