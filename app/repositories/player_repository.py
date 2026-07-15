@@ -384,21 +384,10 @@ class PlayerRepository:
             )
 
         players = (
-
-            self.db.query(Player)
-
-            .filter(
-                Player.market_value_eur.isnot(None)
-            )
-
-            .order_by(
-                Player.market_value_eur.desc()
-            )
-
+            query
+            .order_by(Player.market_value_eur.desc())
             .limit(limit)
-
             .all()
-
         )
 
         return [
