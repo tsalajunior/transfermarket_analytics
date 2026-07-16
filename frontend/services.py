@@ -442,3 +442,146 @@ def get_top_contributions_per90(
         return response.json()
 
     return []
+
+def get_dashboard_summary():
+
+    response = requests.get(
+
+        f"{API_URL}/dashboard/summary"
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return {}
+
+def get_dashboard_market_value_by_club():
+
+    response = requests.get(
+
+        f"{API_URL}/dashboard/market-value-by-club"
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_dashboard_position_distribution():
+
+    response = requests.get(
+
+        f"{API_URL}/dashboard/position-distribution"
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_dashboard_average_age_by_club():
+
+    response = requests.get(
+
+        f"{API_URL}/dashboard/average-age-by-club"
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_dashboard_top_nationalities():
+
+    response = requests.get(
+
+        f"{API_URL}/dashboard/top-nationalities"
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_dashboard_average_market_value_position():
+
+    response = requests.get(
+
+        f"{API_URL}/dashboard/average-market-value-position"
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_dashboard_top_scoring_clubs():
+
+    response = requests.get(
+
+        f"{API_URL}/dashboard/top-scoring-clubs"
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_dashboard_top_assist_clubs():
+
+    response = requests.get(
+
+        f"{API_URL}/dashboard/top-assist-clubs"
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return []
+
+def get_global_search(
+    query: str
+):
+
+    response = requests.get(
+
+        f"{API_URL}/search",
+
+        params={
+            "q": query
+        }
+
+    )
+
+    if response.status_code == 200:
+
+        return response.json()
+
+    return {
+
+        "players": [],
+
+        "clubs": [],
+
+        "leagues": []
+
+    }
+
+
+

@@ -18,8 +18,16 @@ from components.rankings_tables import (
     display_goals_per90_table,
     display_contributions_per90_table
 )
+from components.global_search import display_global_search
 
-st.title("🏆 Rankings")
+
+st.set_page_config(
+    page_title="Rankings",
+    page_icon="⚽",
+    layout="wide"
+)
+st.title("Transfermarket | Rankings")
+display_global_search()
 
 filters = display_rankings_filters()
 

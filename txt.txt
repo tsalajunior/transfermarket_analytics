@@ -1,2 +1,2 @@
-streamlit run Home.py
+streamlit run Dashboard.py
 uvicorn app.main:app --reload   

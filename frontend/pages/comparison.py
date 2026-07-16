@@ -15,10 +15,16 @@ from components.comparison_charts import (
     display_comparison_bar_charts
 )
 from components.comparison_table import display_comparison_table
+from components.global_search import display_global_search
 
 
-
-st.title("⚽ Transfermarkt | Player Comparison")
+st.set_page_config(
+    page_title="Player Comparison",
+    page_icon="⚽",
+    layout="wide"
+)
+st.title("⚽ Transfermarket | Player Comparison")
+display_global_search()
 
 # -----------------------
 # Chargement des données

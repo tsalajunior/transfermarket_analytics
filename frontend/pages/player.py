@@ -13,11 +13,19 @@ from components.player_charts import (
     display_minutes_gauge
 )
 from components.player_radar import display_player_radar
+from components.global_search import display_global_search
 
-st.title("⚽ Transfermarkt | Player Dashboard")
+
+st.set_page_config(
+    page_title="Player Dashboard",
+    page_icon="⚽",
+    layout="wide"
+)
+st.title("⚽ Transfermarket | Player Dashboard")
+display_global_search()
+
 
 players = get_players()
-
 if not players:
     st.error("Impossible de récupérer les joueurs.")
     st.stop()
@@ -25,6 +33,22 @@ if not players:
 seasons = get_seasons()
 
 col1, col2 = st.columns([1, 3])
+selected_player_id = st.session_state.pop(
+    "selected_player_id",
+    None
+)
+
+default_index = 0
+
+if selected_player_id is not None:
+
+    for index, player in enumerate(players):
+
+        if player["id"] == selected_player_id:
+
+            default_index = index
+
+            break
 
 with col1:
     season = st.selectbox(
@@ -36,6 +60,7 @@ with col2:
     selected_player = st.selectbox(
         "Player",
         players,
+        index=default_index,
         format_func=lambda player: player["name"]
     )
 

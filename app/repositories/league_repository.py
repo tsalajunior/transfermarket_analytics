@@ -58,15 +58,6 @@ class LeagueRepository:
     
     def get_seasons(self):
 
-        return (
-            self.db.query(PlayerStat.season)
-            .distinct()
-            .order_by(PlayerStat.season.desc())
-            .all()
-        )
-
-    def get_seasons(self):
-
         seasons = (
             self.db.query(PlayerStat.season)
             .distinct()
@@ -75,7 +66,6 @@ class LeagueRepository:
         )
 
         return [season[0] for season in seasons]
-    
     
     def get_league_dashboard(
         self,
