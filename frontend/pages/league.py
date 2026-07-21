@@ -1,5 +1,4 @@
 import streamlit as st
-
 from components.global_search import display_global_search
 from components.league_kpis import display_league_kpis
 from components.league_charts import (
@@ -16,7 +15,7 @@ from components.league_tables import (
     display_top_assists_table
 )
 
-from services import (
+from api_services import (
     get_seasons,
     get_league,
     get_league_market_values,
@@ -33,95 +32,96 @@ st.set_page_config(
     page_icon="⚽",
     layout="wide"
 )
-
 st.title("⚽ Transfermarket | Ligue 1 Dashboard")
-display_global_search()
 
-LEAGUE_ID = 2
+with st.spinner("Loading League Dashboard..."):
+    display_global_search()
 
-seasons = get_seasons()
+    LEAGUE_ID = 2
 
-season = st.selectbox(
-    "Season",
-    seasons
-)
+    seasons = get_seasons()
 
-league = get_league(
-    LEAGUE_ID,
-    season
-)
+    season = st.selectbox(
+        "Season",
+        seasons
+    )
 
-if league is None:
+    league = get_league(
+        LEAGUE_ID,
+        season
+    )
 
-    st.error("Unable to load league.")
-    st.stop()
+    if league is None:
 
-display_league_kpis(league)
+        st.error("Unable to load league.")
+        st.stop()
 
-market_values = get_league_market_values(LEAGUE_ID)
+    display_league_kpis(league)
 
-average_age = get_average_age_by_club(
-    LEAGUE_ID
-)
+    market_values = get_league_market_values(LEAGUE_ID)
 
-top_scorers = get_league_top_scorers(
-    LEAGUE_ID,
-    season
-)
+    average_age = get_average_age_by_club(
+        LEAGUE_ID
+    )
 
-top_assists = get_league_top_assists(
-    LEAGUE_ID,
-    season
-)
+    top_scorers = get_league_top_scorers(
+        LEAGUE_ID,
+        season
+    )
 
-offensive = get_most_offensive_clubs(
-    LEAGUE_ID,
-    season
-)
+    top_assists = get_league_top_assists(
+        LEAGUE_ID,
+        season
+    )
 
-creative = get_most_creative_clubs(
-    LEAGUE_ID,
-    season
-)
+    offensive = get_most_offensive_clubs(
+        LEAGUE_ID,
+        season
+    )
 
-scatter = get_attack_scatter(
-    LEAGUE_ID,
-    season
-)
+    creative = get_most_creative_clubs(
+        LEAGUE_ID,
+        season
+    )
 
-col1, col2 = st.columns(2)
+    scatter = get_attack_scatter(
+        LEAGUE_ID,
+        season
+    )
 
-with col1:
-    display_market_values_chart(market_values)
+    col1, col2 = st.columns(2)
 
-with col2:
-    display_average_age_chart(average_age)
+    with col1:
+        display_market_values_chart(market_values)
 
-col3, col4 = st.columns(2)
+    with col2:
+        display_average_age_chart(average_age)
 
-with col3:
-    display_top_scorers_chart(top_scorers)
+    col3, col4 = st.columns(2)
 
-with col4:
-    display_top_assists_chart(top_assists)
+    with col3:
+        display_top_scorers_chart(top_scorers)
 
-col5, col6 = st.columns(2)
+    with col4:
+        display_top_assists_chart(top_assists)
 
-with col5:
-    display_most_offensive_chart(offensive)
+    col5, col6 = st.columns(2)
 
-with col6:
-    display_most_creative_chart(creative)
+    with col5:
+        display_most_offensive_chart(offensive)
 
-st.divider()
+    with col6:
+        display_most_creative_chart(creative)
 
-col1, col2 = st.columns(2)
+    st.divider()
 
-with col1:
-    display_top_scorers_table(top_scorers)
+    col1, col2 = st.columns(2)
 
-with col2:
-    display_top_assists_table(top_assists)
+    with col1:
+        display_top_scorers_table(top_scorers)
 
-display_attack_scatter(scatter)
+    with col2:
+        display_top_assists_table(top_assists)
+
+    display_attack_scatter(scatter)
 

@@ -1,5 +1,5 @@
 import streamlit as st
-from services import (
+from api_services import (
     get_players,
     get_player,
     get_seasons
@@ -14,6 +14,7 @@ from components.player_charts import (
 )
 from components.player_radar import display_player_radar
 from components.global_search import display_global_search
+from utils.constants import *
 
 
 st.set_page_config(
@@ -22,72 +23,74 @@ st.set_page_config(
     layout="wide"
 )
 st.title("⚽ Transfermarket | Player Dashboard")
-display_global_search()
+
+with st.spinner("Loading Player Dashboard..."):
+    display_global_search()
 
 
-players = get_players()
-if not players:
-    st.error("Impossible de récupérer les joueurs.")
-    st.stop()
+    players = get_players()
+    if not players:
+        st.error("Unable to retrieve the players.")
+        st.stop()
 
-seasons = get_seasons()
+    seasons = get_seasons()
 
-col1, col2 = st.columns([1, 3])
-selected_player_id = st.session_state.pop(
-    "selected_player_id",
-    None
-)
-
-default_index = 0
-
-if selected_player_id is not None:
-
-    for index, player in enumerate(players):
-
-        if player["id"] == selected_player_id:
-
-            default_index = index
-
-            break
-
-with col1:
-    season = st.selectbox(
-        "Season",
-        seasons
+    col1, col2 = st.columns([1, 3])
+    selected_player_id = st.session_state.pop(
+        "selected_player_id",
+        None
     )
 
-with col2:
-    selected_player = st.selectbox(
-        "Player",
-        players,
-        index=default_index,
-        format_func=lambda player: player["name"]
+    default_index = 0
+
+    if selected_player_id is not None:
+
+        for index, player in enumerate(players):
+
+            if player["id"] == selected_player_id:
+
+                default_index = index
+
+                break
+
+    with col1:
+        season = st.selectbox(
+            "Season",
+            seasons
+        )
+
+    with col2:
+        selected_player = st.selectbox(
+            "Player",
+            players,
+            index=default_index,
+            format_func=lambda player: player["name"]
+        )
+
+    player = get_player(
+        selected_player["id"],
+        season
     )
 
-player = get_player(
-    selected_player["id"],
-    season
-)
+    if player is None:
+        st.error("Unable to retrieve the player's data.")
+        st.stop()
 
-if player is None:
-    st.error("Impossible de récupérer les données du joueur.")
-    st.stop()
+    display_player_card(player)
+    display_player_kpis(player)
+    display_player_stats(player)
 
-display_player_card(player)
-display_player_kpis(player)
-display_player_stats(player)
+    st.subheader("Performance Visualisation")
 
-st.subheader("Performance Visualisation")
+    col1, col2 = st.columns(2)
 
-col1, col2 = st.columns(2)
+    with col1:
+        display_offensive_chart(player)
 
-with col1:
-    display_offensive_chart(player)
+    with col2:
+        display_per90_chart(player)
 
-with col2:
-    display_per90_chart(player)
+    display_minutes_gauge(player)
 
-display_minutes_gauge(player)
-
-st.subheader("Performance Radar")
-display_player_radar(player)
+    st.subheader("Performance Radar")
+    display_player_radar(player)

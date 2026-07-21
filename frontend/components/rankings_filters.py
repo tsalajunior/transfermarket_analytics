@@ -1,6 +1,6 @@
 import streamlit as st
 
-from services import (
+from api_services import (
     get_seasons,
     get_clubs
 )

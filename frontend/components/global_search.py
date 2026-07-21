@@ -1,6 +1,6 @@
 import streamlit as st
 
-from services import get_global_search
+from api_services import get_global_search
 
 
 def display_global_search():

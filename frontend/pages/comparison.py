@@ -1,11 +1,9 @@
 import streamlit as st
-
-from services import (
+from api_services import (
     get_players,
     get_seasons,
     compare_players
 )
-
 from components.comparison_cards import (
     display_comparison_cards
 )
@@ -33,9 +31,7 @@ display_global_search()
 players = get_players()
 
 if not players:
-
-    st.error("Impossible de récupérer les joueurs.")
-
+    st.error("Unable to retrieve the players.")
     st.stop()
 
 seasons = get_seasons()
@@ -47,14 +43,12 @@ seasons = get_seasons()
 col1, col2, col3 = st.columns([1, 2, 2])
 
 with col1:
-
     season = st.selectbox(
         "Season",
         seasons
     )
 
 with col2:
-
     player1 = st.selectbox(
         "Player A",
         players,
@@ -62,7 +56,6 @@ with col2:
     )
 
 with col3:
-
     player2 = st.selectbox(
         "Player B",
         players,
@@ -70,11 +63,8 @@ with col3:
     )
 
 # Empêcher la comparaison du même joueur
-
 if player1["id"] == player2["id"]:
-
     st.warning("Please select two different players.")
-
     st.stop()
 
 # -----------------------
@@ -88,9 +78,7 @@ comparison = compare_players(
 )
 
 if comparison is None:
-
     st.error("Unable to compare these players.")
-
     st.stop()
 
 # -----------------------
@@ -102,5 +90,4 @@ display_comparison_kpis(comparison)
 display_comparison_radar(comparison)
 display_comparison_bar_charts(comparison)
 st.divider()
-
 display_comparison_table(comparison)

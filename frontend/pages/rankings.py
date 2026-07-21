@@ -1,6 +1,6 @@
 import streamlit as st
 
-from services import (
+from api_services import (
     get_top_scorers,
     get_top_assists,
     get_top_goals_per90,
@@ -27,88 +27,90 @@ st.set_page_config(
     layout="wide"
 )
 st.title("Transfermarket | Rankings")
-display_global_search()
 
-filters = display_rankings_filters()
+with st.spinner("Loading Rankings..."):
+    display_global_search()
 
-# -----------------------------
-# Data
-# -----------------------------
+    filters = display_rankings_filters()
 
-top_scorers = get_top_scorers(
-    season=filters["season"],
-    limit=filters["limit"],
-    position=filters["position"],
-    club=filters["club"],
-    min_minutes=filters["min_minutes"]
-)
+    # -----------------------------
+    # Data
+    # -----------------------------
 
-top_assists = get_top_assists(
-    season=filters["season"],
-    limit=filters["limit"],
-    position=filters["position"],
-    club=filters["club"],
-    min_minutes=filters["min_minutes"]
-)
+    top_scorers = get_top_scorers(
+        season=filters["season"],
+        limit=filters["limit"],
+        position=filters["position"],
+        club=filters["club"],
+        min_minutes=filters["min_minutes"]
+    )
 
-goals_per90 = get_top_goals_per90(
-    season=filters["season"],
-    limit=filters["limit"],
-    position=filters["position"],
-    club=filters["club"],
-    min_minutes=filters["min_minutes"]
-)
+    top_assists = get_top_assists(
+        season=filters["season"],
+        limit=filters["limit"],
+        position=filters["position"],
+        club=filters["club"],
+        min_minutes=filters["min_minutes"]
+    )
 
-contributions_per90 = get_top_contributions_per90(
-    season=filters["season"],
-    limit=filters["limit"],
-    position=filters["position"],
-    club=filters["club"],
-    min_minutes=filters["min_minutes"]
-)
+    goals_per90 = get_top_goals_per90(
+        season=filters["season"],
+        limit=filters["limit"],
+        position=filters["position"],
+        club=filters["club"],
+        min_minutes=filters["min_minutes"]
+    )
 
-most_valuable = get_most_valuable_players(
-    limit=filters["limit"],
-    club=filters["club"]
-)
+    contributions_per90 = get_top_contributions_per90(
+        season=filters["season"],
+        limit=filters["limit"],
+        position=filters["position"],
+        club=filters["club"],
+        min_minutes=filters["min_minutes"]
+    )
 
-# -----------------------------
-# Cards
-# -----------------------------
+    most_valuable = get_most_valuable_players(
+        limit=filters["limit"],
+        club=filters["club"]
+    )
 
-display_rankings_cards(
-    top_scorers,
-    top_assists,
-    most_valuable,
-    goals_per90,
-    contributions_per90
-)
+    # -----------------------------
+    # Cards
+    # -----------------------------
 
-# -----------------------------
-# Tabs
-# -----------------------------
+    display_rankings_cards(
+        top_scorers,
+        top_assists,
+        most_valuable,
+        goals_per90,
+        contributions_per90
+    )
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(
-    [
-        "Market Value",
-        "Top Scorers",
-        "Top Assists",
-        "Goals /90",
-        "Goal Contributions /90",
-    ]
-)
+    # -----------------------------
+    # Tabs
+    # -----------------------------
 
-with tab1:
-    display_market_value_table(most_valuable)
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(
+        [
+            "Market Value",
+            "Top Scorers",
+            "Top Assists",
+            "Goals /90",
+            "Goal Contributions /90",
+        ]
+    )
 
-with tab2:
-    display_top_scorers_table(top_scorers)
+    with tab1:
+        display_market_value_table(most_valuable)
 
-with tab3:
-    display_top_assists_table(top_assists)
+    with tab2:
+        display_top_scorers_table(top_scorers)
 
-with tab4:
-    display_goals_per90_table(goals_per90)
+    with tab3:
+        display_top_assists_table(top_assists)
 
-with tab5:
-    display_contributions_per90_table(contributions_per90)
+    with tab4:
+        display_goals_per90_table(goals_per90)
+
+    with tab5:
+        display_contributions_per90_table(contributions_per90)

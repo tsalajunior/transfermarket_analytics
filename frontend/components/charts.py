@@ -1,7 +1,7 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-
+from utils.constants import *
 
 def display_market_value_chart(players):
 
@@ -124,13 +124,7 @@ def display_positions_chart(players):
     # Couleurs
     # -----------------------
 
-    colors = {
-        "Goalkeepers": "#8e44ad",
-        "Defenders": "#3498db",
-        "Midfielders": "#2ecc71",
-        "Forwards": "#e67e22",
-        "Other": "#95a5a6"
-    }
+    colors = DASHBOARD_COLORS
 
     figure = px.pie(
         roles,
