@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
 from app.repositories.league_repository import LeagueRepository
-
+from app.utils.constants import *
 router = APIRouter(
     prefix="/leagues",
     tags=["Leagues"]
@@ -40,7 +40,7 @@ def get_market_values(
 @router.get("/{league_id}")
 def get_league_dashboard(
     league_id: int,
-    season: str = "25/26",
+    season: str = DEFAULT_SEASON,
     db: Session = Depends(get_db)
 ):
     repository = LeagueRepository(db)
@@ -65,8 +65,8 @@ def get_average_age(
 def get_top_scorers(
 
     league_id: int,
-    season: str = "25/26",
-    limit: int = 10,
+    season: str = DEFAULT_SEASON,
+    limit: int = DEFAULT_LIMIT,
     db: Session = Depends(get_db)
 
 ):
@@ -74,19 +74,17 @@ def get_top_scorers(
     repository = LeagueRepository(db)
 
     return repository.get_top_scorers(
-
         league_id,
         season,
         limit
-
     )
 
 @router.get("/{league_id}/top-assists")
 def get_top_assists(
 
     league_id: int,
-    season: str = "25/26",
-    limit: int = 10,
+    season: str = DEFAULT_SEASON,
+    limit: int = DEFAULT_LIMIT,
     db: Session = Depends(get_db)
 
 ):
@@ -94,11 +92,9 @@ def get_top_assists(
     repository = LeagueRepository(db)
 
     return repository.get_top_assists(
-
         league_id,
         season,
         limit
-
     )
 
 
@@ -106,7 +102,7 @@ def get_top_assists(
 def get_most_offensive_clubs(
 
     league_id: int,
-    season: str = "25/26",
+    season: str = DEFAULT_SEASON,
     db: Session = Depends(get_db)
 
 ):
@@ -114,17 +110,15 @@ def get_most_offensive_clubs(
     repository = LeagueRepository(db)
 
     return repository.get_most_offensive_clubs(
-
         league_id,
         season
-
     )
 
 @router.get("/{league_id}/most-creative")
 def get_most_creative(
 
     league_id: int,
-    season: str = "25/26",
+    season: str = DEFAULT_SEASON,
     db: Session = Depends(get_db)
 
 ):
@@ -132,17 +126,15 @@ def get_most_creative(
     repository = LeagueRepository(db)
 
     return repository.get_most_creative_clubs(
-
         league_id,
         season
-
     )
 
 @router.get("/{league_id}/attack-scatter")
 def attack_scatter(
 
     league_id: int,
-    season: str = "25/26",
+    season: str = DEFAULT_SEASON,
     db: Session = Depends(get_db)
 
 ):
@@ -150,8 +142,6 @@ def attack_scatter(
     repository = LeagueRepository(db)
 
     return repository.get_attack_scatter(
-
         league_id,
         season
-
     )

@@ -12,7 +12,7 @@ from app.schemas.player import ClubPlayerResponse
 from app.core.database import SessionLocal
 from sqlalchemy.orm import Session
 from app.repositories.club_repository import ClubRepository
-
+from app.utils.constants import *
 
 
 router = APIRouter(
@@ -48,7 +48,7 @@ def get_all_clubs(
 )
 def get_players_by_club(
     club_id: int,
-    season: str = "25/26",
+    season: str = DEFAULT_SEASON,
     db: Session = Depends(get_db)
 ):
 
@@ -64,7 +64,7 @@ def get_players_by_club(
     response_model=list[ClubMarketValueResponse]
 )
 def get_clubs_market_value(
-    limit: int = 20,
+    limit: int = DEFAULT_LIMIT,
     db: Session = Depends(get_db)
 ):
 
@@ -79,8 +79,8 @@ def get_clubs_market_value(
     response_model=list[ClubGoalsResponse]
 )
 def get_top_attacks(
-    season: str = "25/26",
-    limit: int = 20,
+    season: str = DEFAULT_SEASON,
+    limit: int = DEFAULT_LIMIT,
     db: Session = Depends(get_db)
 ):
 
@@ -97,8 +97,8 @@ def get_top_attacks(
     response_model=list[ClubAssistsResponse]
 )
 def get_top_assists(
-    season: str = "25/26",
-    limit: int = 20,
+    season: str = DEFAULT_SEASON,
+    limit: int = DEFAULT_LIMIT,
     db: Session = Depends(get_db)
 ):
 
@@ -115,7 +115,7 @@ def get_top_assists(
     response_model=list[ClubAverageMarketValueResponse]
 )
 def get_average_market_value(
-    limit: int = 20,
+    limit: int = DEFAULT_LIMIT,
     db: Session = Depends(get_db)
 ):
 
@@ -131,7 +131,7 @@ def get_average_market_value(
     response_model=list[ClubAverageAgeResponse]
 )
 def get_average_age(
-    limit: int = 20,
+    limit: int = DEFAULT_LIMIT,
     db: Session = Depends(get_db)
 ):
 
@@ -147,7 +147,7 @@ def get_average_age(
 )
 def get_club(
     club_id: int,
-    season: str = "25/26",
+    season: str = DEFAULT_SEASON,
     db: Session = Depends(get_db)
 ):
 

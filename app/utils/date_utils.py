@@ -3,7 +3,7 @@ from datetime import date
 
 def calculate_age(birth_date):
     """
-    Calcule l'âge d'une personne à partir de sa date de naissance.
+    Calculates a person's age based on their date of birth.
 
     Args:
         birth_date (date | None)

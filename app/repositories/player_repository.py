@@ -9,6 +9,101 @@ class PlayerRepository:
     def __init__(self, db: Session):
         self.db = db
 
+    """
+        Builders
+    """
+    def _build_player_list(self, player: Player):
+        return {
+            "id": player.id,
+            "name": player.name,
+            "club": player.club.name if player.club else None,
+        }
+
+    def _build_comparison_player(
+        self,
+        player: Player,
+        stats: PlayerStat | None
+    ):
+        return {
+            "id": player.id,
+            "name": player.name,
+            "age": calculate_age(player.birth_date),
+            "nationality": player.nationality,
+            "position": player.position,
+            "club": player.club.name if player.club else None,
+            "market_value_eur": (
+                float(player.market_value_eur)
+                if player.market_value_eur
+                else None
+            ),
+
+            "goals": stats.goals if stats else 0,
+            "assists": stats.assists if stats else 0,
+            "appearances": stats.appearances if stats else 0,
+            "minutes_played": stats.minutes_played if stats else 0,
+
+            "goals_per_90": stats.goals_per_90 if stats else 0,
+            "assists_per_90": stats.assists_per_90 if stats else 0,
+            "goal_contribution_per_90": (
+                stats.goal_contribution_per_90 if stats else 0
+            ),
+        }
+
+    def _build_player_summary(
+        self,
+        player: Player,
+        stats: PlayerStat
+    ):
+        return {
+            "id": player.id,
+            "player": player.name,
+
+            "age": calculate_age(player.birth_date),
+            "nationality": player.nationality,
+            "club": player.club.name if player.club else None,
+            "position": player.position,
+
+            "market_value": (
+                float(player.market_value_eur)
+                if player.market_value_eur
+                else None
+            ),
+
+            "goals": stats.goals,
+            "assists": stats.assists,
+            "appearances": stats.appearances,
+            "minutes_played": stats.minutes_played,
+
+            "goals_per_90": stats.goals_per_90,
+            "assists_per_90": stats.assists_per_90,
+            "goal_contribution_per_90": stats.goal_contribution_per_90,
+        }
+
+    def _get_player_with_stats(
+        self,
+        player_id: int,
+        season: str = "25/26"
+    ):
+
+        return (
+            self.db.query(
+                Player,
+                PlayerStat
+            )
+            .outerjoin(
+                PlayerStat,
+                (
+                    (Player.id == PlayerStat.player_id)
+                    &
+                    (PlayerStat.season == season)
+                )
+            )
+            .filter(
+                Player.id == player_id
+            )
+            .first()
+        )
+    
     def get_by_tm_id(self, tm_id: str):
         return (
             self.db.query(Player)
@@ -78,13 +173,10 @@ class PlayerRepository:
         )
 
         return [
-            {
-                "name": row.name,
-                "goals": row.goals
-            }
-            for row in results
+            self._build_player_summary(player, stats)
+            for player, stats in results
         ]
-    
+            
     def get_top_assists(
         self,
         season: str = "25/26",
@@ -110,11 +202,8 @@ class PlayerRepository:
         )
 
         return [
-            {
-                "name": row.name,
-                "assists": row.assists
-            }
-            for row in results
+            self._build_player_summary(player, stats)
+            for player, stats in results
         ]
     
     def get_top_goals_per_90(
@@ -297,57 +386,18 @@ class PlayerRepository:
         season: str = "25/26"
     ):
 
-        def load_player(player_id):
+        result1 = self._get_player_with_stats(player1_id, season)
+        result2 = self._get_player_with_stats(player2_id, season)
 
-            result = (
-                self.db.query(
-                    Player,
-                    PlayerStat
-                )
-                .join(
-                    PlayerStat,
-                    Player.id == PlayerStat.player_id
-                )
-                .filter(
-                    Player.id == player_id,
-                    PlayerStat.season == season
-                )
-                .first()
-            )
-
-            if result is None:
-                return None
-
-            player, stats = result
-
-            return {
-                "id": player.id,
-                "name": player.name,
-                "age": calculate_age(player.birth_date),
-                "nationality": player.nationality,
-                "position": player.position,
-                "club": player.club.name if player.club else None,
-                "market_value_eur": float(player.market_value_eur)
-                if player.market_value_eur
-                else None,
-                "goals": stats.goals,
-                "assists": stats.assists,
-                "appearances": stats.appearances,
-                "minutes_played": stats.minutes_played,
-                "goals_per_90": stats.goals_per_90,
-                "assists_per_90": stats.assists_per_90,
-                "goal_contribution_per_90": stats.goal_contribution_per_90,
-            }
-
-        first = load_player(player1_id)
-        second = load_player(player2_id)
-
-        if first is None or second is None:
+        if result1 is None or result2 is None:
             return None
-        
+
+        player1, stats1 = result1
+        player2, stats2 = result2
+
         return {
-            "player1": first,
-            "player2": second
+            "player1": self._build_comparison_player(player1, stats1),
+            "player2": self._build_comparison_player(player2, stats2),
         }
 
     def get_all_players(self):
@@ -359,11 +409,7 @@ class PlayerRepository:
         )
 
         return [
-            {
-                "id": player.id,
-                "name": player.name,
-                "club": player.club.name if player.club else None
-            }
+            self._build_player_list(player)
             for player in players
         ]
     
@@ -391,20 +437,15 @@ class PlayerRepository:
         )
 
         return [
-
             {
-
                 "player": player.name,
                 "age": calculate_age(player.birth_date),
                 "nationality": player.nationality,
                 "club": player.club.name if player.club else None,
                 "position": player.position,
                 "market_value": float(player.market_value_eur)
-
             }
-
             for player in players
-
         ]
 
     def get_player_ranking_scorers(
@@ -461,27 +502,8 @@ class PlayerRepository:
         )
 
         return [
-
-            {
-
-                "player": player.name,
-                "age": calculate_age(player.birth_date),
-                "nationality": player.nationality,
-
-                "club": player.club.name if player.club else None,
-
-                "position": player.position,
-
-                "goals": stats.goals,
-
-                "assists": stats.assists,
-
-                "minutes": stats.minutes_played
-
-            }
-
+            self._build_player_summary(player, stats)
             for player, stats in results
-
         ]
         
     def get_player_ranking_assists(
@@ -539,28 +561,10 @@ class PlayerRepository:
         )
 
         return [
-
-            {
-
-                "player": player.name,
-                "age": calculate_age(player.birth_date),
-                "nationality": player.nationality,
-                "club": player.club.name if player.club else None,
-
-                "position": player.position,
-
-                "goals": stats.goals,
-
-                "assists": stats.assists,
-
-                "minutes": stats.minutes_played
-
-            }
-
+            self._build_player_summary(player, stats)
             for player, stats in results
-
         ]
-    
+            
     def get_top_goals_per90(
         self,
         season: str = "25/26",
@@ -616,24 +620,8 @@ class PlayerRepository:
         )
 
         return [
-
-            {
-
-                "player": player.name,
-                "age": calculate_age(player.birth_date),
-                "nationality": player.nationality,
-                "club": player.club.name if player.club else None,
-                "position": player.position,
-
-                "goals_per_90": float(stats.goals_per_90 or 0),
-
-                "goals": stats.goals,
-                "minutes": stats.minutes_played
-
-            }
-
+            self._build_player_summary(player, stats)
             for player, stats in results
-
         ]
 
     def get_top_contributions_per90(
@@ -691,25 +679,9 @@ class PlayerRepository:
         )
 
         return [
-
-            {
-
-                "player": player.name,
-                "age": calculate_age(player.birth_date),
-                "nationality": player.nationality,
-                "club": player.club.name if player.club else None,
-                "position": player.position,
-
-                "goal_contribution_per_90": float(
-                    stats.goal_contribution_per_90 or 0
-                ),
-
-                "goals": stats.goals,
-                "assists": stats.assists
-
-            }
-
+            self._build_player_summary(player, stats)
             for player, stats in results
-
         ]
+
+
 

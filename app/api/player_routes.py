@@ -272,9 +272,6 @@ def get_top_contributions_per90(
     )
 
 
-
-
-
 @router.get(
     "/{player_id}",
     response_model=PlayerDetailsResponse

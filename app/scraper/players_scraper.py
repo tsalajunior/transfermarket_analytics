@@ -20,14 +20,6 @@ class PlayerScraper:
         }
 
     def parse_market_value(self, value: str) -> int:
-        """
-        Convertit :
-        €80.00m -> 80000000
-        €950k   -> 950000
-        €1.37bn -> 1370000000
-        -       -> 0
-        """
-
         if not value or value.strip() == "-":
             return 0
 

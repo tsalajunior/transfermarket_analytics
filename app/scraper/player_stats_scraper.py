@@ -40,6 +40,8 @@ class PlayerStatsScraper:
         )
 
         response.raise_for_status()
+        #
+        print(f"\n===== {player_tm_id} =====")
 
         data = response.json()
 
@@ -73,10 +75,20 @@ class PlayerStatsScraper:
                 "competitionId"
             )
 
-            season_info = game_info.get(
-                "season",
-                {}
-            )
+            # season_info = game_info.get(
+            #     "season",
+            #     {}
+            # )
+
+            # match_season = season_info.get(
+            #     "nonCyclicalName",
+            #     ""
+            # )
+
+            season_info = game_info.get("season")
+
+            if not season_info:
+                continue
 
             match_season = season_info.get(
                 "nonCyclicalName",
@@ -87,6 +99,12 @@ class PlayerStatsScraper:
             #     f"competition={competition} | "
             #     f"season={match_season}"
             # )
+            #
+            print(
+                f"{player_tm_id} | "
+                f"competition={competition} | "
+                f"season={match_season}"
+            )
 
             if competition != "FR1":
                 continue
@@ -145,4 +163,8 @@ class PlayerStatsScraper:
                     "redCardGross"
                 ) or 0
             )
+        #
+        print("FINAL STATS :", stats)
+        print(stats)
+        print("=======================\n")
         return stats

@@ -27,7 +27,7 @@ def display_rankings_cards(
 
         st.metric(
 
-            "🥇 Top Scorer",
+            "Top Scorer",
 
             scorer.get("player", "—"),
 
@@ -39,7 +39,7 @@ def display_rankings_cards(
 
         st.metric(
 
-            "🎯 Top Assister",
+            "Top Assister",
 
             assister.get("player", "—"),
 
@@ -51,7 +51,7 @@ def display_rankings_cards(
 
         st.metric(
 
-            "💰 Most Valuable",
+            "Most Valuable",
 
             valuable.get("player", "—"),
 
@@ -75,7 +75,7 @@ def display_rankings_cards(
 
         st.metric(
 
-            "⚽ Goals /90",
+            "Goals /90",
 
             goals90.get("player", "—"),
 
@@ -87,7 +87,7 @@ def display_rankings_cards(
 
         st.metric(
 
-            "🚀 Goal Contributions /90",
+            "Goal Contributions /90",
 
             contrib90.get("player", "—"),
 
