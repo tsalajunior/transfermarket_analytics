@@ -63,7 +63,7 @@ class PlayerRepository:
             "club": player.club.name if player.club else None,
             "position": player.position,
 
-            "market_value": (
+            "market_value_eur": (
                 float(player.market_value_eur)
                 if player.market_value_eur
                 else None
@@ -73,12 +73,14 @@ class PlayerRepository:
             "assists": stats.assists,
             "appearances": stats.appearances,
             "minutes_played": stats.minutes_played,
-
             "goals_per_90": stats.goals_per_90,
             "assists_per_90": stats.assists_per_90,
             "goal_contribution_per_90": stats.goal_contribution_per_90,
         }
 
+    """
+        Functions
+    """
     def _get_player_with_stats(
         self,
         player_id: int,
@@ -155,8 +157,8 @@ class PlayerRepository:
 
         results = (
             self.db.query(
-                Player.name,
-                PlayerStat.goals
+                Player,
+                PlayerStat
             )
             .join(
                 PlayerStat,
@@ -184,8 +186,8 @@ class PlayerRepository:
     ):
         results = (
             self.db.query(
-                Player.name,
-                PlayerStat.assists
+                Player,
+                PlayerStat
             )
             .join(
                 PlayerStat,
@@ -295,12 +297,7 @@ class PlayerRepository:
         )
 
         return [
-            {
-                "id": player.id,
-                "name": player.name,
-                "nationality": player.nationality,
-                "position": player.position
-            }
+            self._build_player_list(player)
             for player in players
         ]
 
