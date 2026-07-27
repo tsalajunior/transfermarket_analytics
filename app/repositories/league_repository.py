@@ -202,11 +202,7 @@ class LeagueRepository:
 
             .all()
 
-        )
-        #
-        print("=" * 50)
-        print("Market values query:", results)
-        print("=" * 50)
+        )     
 
         return [
 
