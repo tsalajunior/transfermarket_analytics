@@ -9,6 +9,8 @@ from datetime import date
 from types import SimpleNamespace
 from app.repositories.player_repository import PlayerRepository
 import pytest
+from fastapi.testclient import TestClient
+from app.main import app
 
 
 @pytest.fixture
@@ -54,3 +56,9 @@ def stats():
         goal_contribution_per_90=1.17
 
     )
+
+
+
+@pytest.fixture
+def client():
+    return TestClient(app)

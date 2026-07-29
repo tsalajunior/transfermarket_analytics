@@ -41,7 +41,6 @@ def get_all_clubs(
 
     return repository.get_all_clubs()
 
-
 @router.get(
     "/{club_id}/players",
     response_model=list[ClubPlayerResponse]
@@ -91,7 +90,6 @@ def get_top_attacks(
         limit=limit
     )
 
-
 @router.get(
     "/top-assists",
     response_model=list[ClubAssistsResponse]
@@ -109,7 +107,6 @@ def get_top_assists(
         limit=limit
     )
 
-
 @router.get(
     "/average-market-value",
     response_model=list[ClubAverageMarketValueResponse]
@@ -124,7 +121,6 @@ def get_average_market_value(
     return repository.get_average_market_value(
         limit=limit
     )
-
 
 @router.get(
     "/average-age",

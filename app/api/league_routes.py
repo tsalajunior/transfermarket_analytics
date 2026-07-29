@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
@@ -44,10 +44,19 @@ def get_league_dashboard(
     db: Session = Depends(get_db)
 ):
     repository = LeagueRepository(db)
-    return repository.get_league_dashboard(
+
+    dashboard = repository.get_league_dashboard(
         league_id,
         season
     )
+
+    if dashboard is None:
+        raise HTTPException(
+            status_code=404,
+            detail="League not found"
+        )
+
+    return dashboard
 
 @router.get("/{league_id}/average-age")
 def get_average_age(
